@@ -1,0 +1,66 @@
+  /* Estilos generales */
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  /* Contenedor principal */
+  .dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Tarjeta */
+  .card {
+    flex: 1 1 300px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Título de la tarjeta */
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  /* Número de la tarjeta */
+  .card-number {
+    font-size: 36px;
+    color: #333333;
+    margin-bottom: 10px;
+  }
+
+  /* Dashboard header */
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Título del dashboard */
+  .dashboard-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+  }
+
+  /* Gráfico */
+  .chart {
+    flex: 1 1 400px;
+    height: 300px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }

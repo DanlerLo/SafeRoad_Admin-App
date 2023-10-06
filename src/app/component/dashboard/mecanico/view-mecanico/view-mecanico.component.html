@@ -1,0 +1,44 @@
+<h2 class="header-title">Información Mecánico</h2>
+<hr class="divider">
+<div class="card-container">
+  <div class="mat-card">
+    <div class="mat-card-title">
+      <span class="highlight">Nombre Mecánico:</span> {{ mecanicoObj?.name }}
+    </div>
+    <div class="mat-card-subtitle">
+      {{ mecanicoObj?.qualification }}
+    </div>
+    <hr class="divider">
+    <div class="row pt-4">
+      <div class="col-md-3">
+        <div class="mat-card-content">
+          <span class="highlight">Email:</span> {{ mecanicoObj.mail }} <br><br>
+          <span class="highlight">Celular:</span> {{ mecanicoObj.phoneNumber }} <br><br>
+          <span class="highlight">Dirección:</span> {{ mecanicoObj.address }} <br><br>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="mat-card-content">
+          <span class="highlight">Local:</span> {{ mecanicoObj.local }} <br><br>
+          <span class="highlight">Cédula:</span> {{ mecanicoObj.identification }}
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="mat-card-content">
+          <span class="highlight">Comprobante</span> <br>
+          <a href="{{ mecanicoObj.voucher }}" alt="Comprobante">
+            <img src="{{ mecanicoObj.voucher }}" alt="Comprobante" class="voucher">
+          </a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="mat-card-content">
+          <span class="highlight">Foto de Perfil</span> <br>
+          <a href="{{ mecanicoObj.profilePic }}" alt="FotoPerfil">
+            <img src="{{ mecanicoObj.profilePic }}" alt="FotoPerfil" class="voucher">
+          </a><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<h2 class="header-title">Información Cliente</h2>
+<hr class="divider">
+<div class="card-container">
+  <div class="mat-card">
+    <div class="mat-card-title">
+      <span class="highlight">Nombre Cliente:</span> {{ usuarioObj?.name }}
+    </div>
+    <div class="mat-card-subtitle">
+      {{ usuarioObj?.qualification }}
+    </div>
+    <hr class="divider">
+    <div class="row pt-4">
+      <div class="col-md-3">
+        <div class="mat-card-content">
+          <span class="highlight">Email:</span> {{ usuarioObj.mail }} <br><br>
+          <span class="highlight">Celular:</span> {{ usuarioObj.phoneNumber }} <br><br>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="mat-card-content">
+          <span class="highlight">Cédula:</span> {{ usuarioObj.identification }}
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="mat-card-content">
+          <span class="highlight">Foto de Perfil</span> <br>
+          <a href="{{ usuarioObj.profilePic }}" alt="FotoPerfil">
+            <img src="{{ usuarioObj.profilePic }}" alt="FotoPerfil" class="voucher">
+          </a><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
