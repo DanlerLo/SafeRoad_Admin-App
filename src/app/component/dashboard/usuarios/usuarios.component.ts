@@ -16,17 +16,19 @@ import { DeleteusuarioComponent } from './delete-usuarios/delete-usuarios.compon
 })
 export class UsuariosComponent implements OnInit {
 
-  ususariossArr : any[] = [];
-  displayedColumns: string[] = ['name', 'mobile', 'mail', 'gender','isAviable','action'];
+  ususariossArr: any[] = [];
+  displayedColumns: string[] = ['name', 'mobile', 'mail', 'gender', 'isAviable', 'action'];
   dataSource!: MatTableDataSource<Usuarios>;
+  selectedGender: string = '';
+  selectedAvailability: boolean | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    public dialog : MatDialog,
-    private dataApi : DataService,
-    private _snackBar : MatSnackBar
+    public dialog: MatDialog,
+    private dataApi: DataService,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -38,14 +40,14 @@ export class UsuariosComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      title : 'Registrar Usuario',
-      buttonName : 'Registrar'
+      title: 'Registrar Usuario',
+      buttonName: 'Registrar'
     }
 
     const dialogRef = this.dialog.open(AddUsuariosComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(data => {
-      if(data) {
+      if (data) {
         this.dataApi.addUsuarios(data);
         this.openSnackBar("Registro exitoso.", "OK")
       }
@@ -53,8 +55,8 @@ export class UsuariosComponent implements OnInit {
   }
 
   //Usuarios
-  editUsuario(row : any) {
-    if(row.id == null || row.name == null) {
+  editUsuario(row: any) {
+    if (row.id == null || row.name == null) {
       return;
     }
     const dialogConfig = new MatDialogConfig();
@@ -68,26 +70,26 @@ export class UsuariosComponent implements OnInit {
     const dialogRef = this.dialog.open(AddUsuariosComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(data => {
-      if(data) {
+      if (data) {
         this.dataApi.updateUsuarios(data);
         this.openSnackBar("Se ha actualizado.", "OK")
       }
     })
   }
 
-  deleteUsuario(row : any) {
+  deleteUsuario(row: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      title : 'Eliminar Usuario',
-      usuarioName : row.name
+      title: 'Eliminar Usuario',
+      usuarioName: row.name
     }
 
     const dialogRef = this.dialog.open(DeleteusuarioComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(data => {
-      if(data) {
+      if (data) {
         this.dataApi.deleteUsuarios(row.id);
         this.openSnackBar("Usuario eliminado .", "OK")
       }
@@ -96,7 +98,7 @@ export class UsuariosComponent implements OnInit {
 
   getAllUsuarios() {
     this.dataApi.getAllUsuarios().subscribe(res => {
-      this.ususariossArr = res.map((e : any) => {
+      this.ususariossArr = res.map((e: any) => {
         const data = e.payload.doc.data();
         data.id = e.payload.doc.id;
         return data;
@@ -108,8 +110,8 @@ export class UsuariosComponent implements OnInit {
     })
   }
 
-  viewUsuario(row : any) {
-    window.open('/dashboard/usuarios/'+row.id,'_blank');
+  viewUsuario(row: any) {
+    window.open('/dashboard/usuarios/' + row.id, '_blank');
   }
 
   openSnackBar(message: string, action: string) {
@@ -119,7 +121,11 @@ export class UsuariosComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
+    if (this.selectedGender !== '') {
+      this.dataSource.data = this.ususariossArr.filter(user => user.gender === this.selectedGender);
+    } else {
+      this.dataSource.data = this.ususariossArr;
+    }
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

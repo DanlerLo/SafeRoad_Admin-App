@@ -2,6 +2,7 @@ import { Component, AfterViewInit  } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as Highmaps from 'highcharts/highmaps';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-modulo',
@@ -25,7 +26,12 @@ export class ModuloComponent implements AfterViewInit {
   totalServicios = 0; 
   pending = 0;
   totalOk = 0;
-  totalNoOk = 0; 
+  totalNoOk = 0;
+  totalIds = 0; 
+  totalCalificaciones = 0; 
+  totalSolicitudes= 0;
+
+  mechanicRatings: { mechanicId: string, qualification: number }[] = [];
 
   constructor(private firestore: AngularFirestore) { }
   ngAfterViewInit(): void {
@@ -51,8 +57,15 @@ export class ModuloComponent implements AfterViewInit {
     interface Membresia{
       precio: any;
     }
+    interface MechanicQualification {
+      mechanicId: string;
+      qualification: any;
+    }
 
-
+    interface RequestData{
+      status: string;
+    }
+    
     this.createProfitsChart();
     this.fechaUsuarios();
     this.fechaMecanicos();
@@ -106,14 +119,59 @@ export class ModuloComponent implements AfterViewInit {
       const totalNoOk = totalServicios.filter(servicio => servicio === 'NoOk').length;
       this.createBarChartServices(totalOk, totalNoOk, pending);
     });
+
+    this.firestore.collection<RequestData>('requests').valueChanges().subscribe(soli => {
+      const totalSolicitudes = soli.map(soli => soli.status);
+      const totlaPending = totalSolicitudes.filter(solicitud => solicitud === 'pending').length;
+      const totalInProcess = totalSolicitudes.filter(solicitud => solicitud === 'inProcess').length;
+      const totalBilling = totalSolicitudes.filter(solicitud => solicitud === 'inBilling').length;
+      const totalCustomer = totalSolicitudes.filter(solicitud => solicitud === 'inCustomerAcceptance').length;
+      const totalSelecting = totalSolicitudes.filter(solicitud => solicitud === 'selecting').length;
+      const totalFinished = totalSolicitudes.filter(solicitud => solicitud === 'finished').length;
+      const totalRejected = totalSolicitudes.filter(solicitud => solicitud === 'inBilling').length;
+      this.createColumnChartSolicitudes(totlaPending, totalInProcess, totalBilling, totalCustomer, totalSelecting, totalFinished, totalRejected);
+    });
+
+    combineLatest([
+      this.firestore.collection<MechanicQualification>('mechanicQualifications').valueChanges(),
+      this.firestore.collection('mecanicos').get()
+    ]).subscribe(([qualifications, snapshot]) => {
+      console.log('AQUI DEBEN APARECERLAS CALIFICACIONES', qualifications)
+      const mechanicRatingsMap: { [mechanicId: string]: number[] } = {};
+      qualifications.forEach(qualification => {
+        if (!mechanicRatingsMap[qualification.mechanicId]) {
+          mechanicRatingsMap[qualification.mechanicId] = [];
+        }
+        mechanicRatingsMap[qualification.mechanicId].push(qualification.qualification);
+      });
+      this.mechanicRatings = Object.keys(mechanicRatingsMap).map(mechanicId => {
+        const ratings = mechanicRatingsMap[mechanicId];
+        const qualification = ratings.reduce((acc, rating) => acc + rating, 0) / ratings.length;
+        return { mechanicId, qualification };
+      });
+    
+      const mechanicNames: { [mechanicId: string]: string } = {};
+      snapshot.forEach(doc => {
+        const mechanicData = doc.data() as { uid: string, name: string };
+        mechanicNames[mechanicData.uid] = mechanicData.name;
+      });
+    
+      const chartData = this.mechanicRatings.map(item => ({
+        name: mechanicNames[item.mechanicId],
+        y: item.qualification
+      }));
+    
+      this.createBarChart(chartData);
+    });
 }
+
 createChart(totalUsers: number, totalMechanics: number) {
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'pie'
     },
     title: {
-      text: 'Usuarios y mecánicos'
+      text: 'Clientes y mecánicos'
     },
     series: [
       {
@@ -254,8 +312,8 @@ createPieChartMecanicos(hombres: number, mujeres: number) {
         name: 'Cantidad',
         type: 'pie',
         data: [
-          ['Femenino', hombres],
-          ['Masculino', mujeres]
+          ['Femenino', mujeres],
+          ['Masculino', hombres]
         ]
       }
     ]
@@ -276,8 +334,8 @@ createPieChartUsers(hombres: number, mujeres: number) {
         name: 'Cantidad',
         type: 'pie',
         data: [
-          ['Femenino', hombres],
-          ['Masculino', mujeres]
+          ['Femenino', mujeres],
+          ['Masculino', hombres]
         ]
       }
     ]
@@ -309,6 +367,74 @@ createBarChartServices(Ok:number, NoOk: number, pending: number){
     ]
   };
   Highcharts.chart('containerServices', chartOptions);
+}
+
+createBarChart(chartData: { name: string; y: number }[]) {
+  const chartOptions: Highcharts.Options = {
+    chart: {
+      type: 'bar'
+    },
+    title: {
+      text: 'Calificaciones Promedio de Mecánicos'
+    },
+    xAxis: {
+      type: 'category',
+      title: {
+        text: 'Nombre del Mecánico' 
+      },
+      categories: chartData.map(item => { return item.name }),
+      labels: {
+        enabled: true
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Calificación Promedio'
+      }
+    },
+    series: [{
+      name: 'Calificación Promedio',
+      type: 'bar',
+      data: chartData
+    }]
+  };
+  Highcharts.chart('rating-container', chartOptions);
+}
+
+createColumnChartSolicitudes(
+  pending: number,
+  inProcess: number,
+  inBilling: number,
+  inCustomerAcceptance: number,
+  selecting: number,
+  finished: number,
+  rejected: number
+) {
+  const chartOptions: Highcharts.Options = {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Estado de las Solicitudes'
+    },
+    xAxis: {
+      categories: ['Pendiente', 'En proceso', 'En pago', 'Confirmación de cliente', 'Selección', 'Finalizado', 'Rechazado']
+    },
+    yAxis: {
+      title: {
+        text: 'Cantidad de Solicitudes'
+      }
+    },
+    series: [
+      {
+        name: 'Solicitudes',
+        type: 'column',
+        data: [pending, inProcess, inBilling, inCustomerAcceptance, selecting, finished, rejected]
+      }
+    ]
+  };
+
+  Highcharts.chart('solicitud-chart-container', chartOptions);
 }
 
 }

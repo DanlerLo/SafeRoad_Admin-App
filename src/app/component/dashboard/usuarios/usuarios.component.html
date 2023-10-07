@@ -10,11 +10,22 @@
     </div>
   </div>
 
-  <h2 style="font-weight: 700;" color="primary" class="mt-4">Información de usuarios</h2>
+  <!-- Filtros de búsqueda -->
+  <div class="filters">
+    <mat-form-field appearance="standard">
+      <mat-label>Género</mat-label>
+      <mat-select [(ngModel)]="selectedGender" (change)="applyFilter($event)">
+        <mat-option value="">Todos</mat-option>
+        <mat-option value="Masculino">Masculino</mat-option>
+        <mat-option value="Femenino">Femenino</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
   <!-- Mecanicos table -->
-  <mat-form-field appearance="standard">
-    <mat-label>Busqueda</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. code logic" #input>
+  <mat-form-field appearance="standard" class="search-field">
+    <mat-label>Búsqueda</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ej. código lógico" #input>
   </mat-form-field>
 
   <div class="mat-elevation-z8">
