@@ -37,30 +37,12 @@ export class ViewUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsuarioById();
-    this.getAllPatientsForDoctor();
   }
 
   getUsuarioById() {
     this.dataApi.getUsuarioById(this.id).subscribe(res => {
       this.usuarioObj = res;
     })
-  }
-
-  getAllPatientsForDoctor() {
-    this.dataApi.getAllUsuarios().subscribe(res => {
-      this.allPatients = res.map((e : any) => {
-        const data = e.payload.doc.data();
-        if(data.usuario_id == this.id) {
-          data.patient_id = e.payload.doc.id;
-          return data;
-        }
-      })
-
-      this.allPatients = this.allPatients.filter(item => item != undefined);
-      this.dataSource = new MatTableDataSource(this.allPatients);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
   }
 
   applyFilter(event: Event) {
@@ -71,7 +53,6 @@ export class ViewUsuarioComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);

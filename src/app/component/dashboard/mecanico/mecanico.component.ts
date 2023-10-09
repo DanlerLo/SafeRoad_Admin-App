@@ -110,6 +110,9 @@ export class MecanicoComponent implements OnInit {
   viewMecanico(row : any) {
     window.open('/dashboard/mecanico/'+row.id,'_blank');
   }
+  getHistorialServicios(row: any) {
+    window.open('/dashboard/workPerformed/' + row.id, '_blank');
+  }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);

@@ -23,12 +23,12 @@ export class ModuloComponent implements AfterViewInit {
   mujeresMecanicos = 0;
   hombresClientes = 0;
   mujeresClientes = 0;
-  totalServicios = 0; 
+  totalServicios = 0;
   pending = 0;
   totalOk = 0;
   totalNoOk = 0;
-  totalIds = 0; 
-  totalCalificaciones = 0; 
+  totalIds = 0;
+  totalCalificaciones = 0;
   totalSolicitudes= 0;
 
   mechanicRatings: { mechanicId: string, qualification: number }[] = [];
@@ -65,7 +65,7 @@ export class ModuloComponent implements AfterViewInit {
     interface RequestData{
       status: string;
     }
-    
+
     this.createProfitsChart();
     this.fechaUsuarios();
     this.fechaMecanicos();
@@ -104,7 +104,7 @@ export class ModuloComponent implements AfterViewInit {
       const mujeresMecanicos = generosMecanicos.filter(genero => genero === 'Femenino').length;
       this.createPieChartMecanicos(hombresMecanicos, mujeresMecanicos);
     });
-    
+
     this.firestore.collection<ClienteData>('users').valueChanges().subscribe(users => {
       const generosUsuarios = users.map(user => user.gender);
       const hombresClientes = generosUsuarios.filter(genero => genero === 'Masculino').length;
@@ -149,18 +149,18 @@ export class ModuloComponent implements AfterViewInit {
         const qualification = ratings.reduce((acc, rating) => acc + rating, 0) / ratings.length;
         return { mechanicId, qualification };
       });
-    
+
       const mechanicNames: { [mechanicId: string]: string } = {};
       snapshot.forEach(doc => {
         const mechanicData = doc.data() as { uid: string, name: string };
         mechanicNames[mechanicData.uid] = mechanicData.name;
       });
-    
+
       const chartData = this.mechanicRatings.map(item => ({
         name: mechanicNames[item.mechanicId],
         y: item.qualification
       }));
-    
+
       this.createBarChart(chartData);
     });
 }
@@ -380,7 +380,7 @@ createBarChart(chartData: { name: string; y: number }[]) {
     xAxis: {
       type: 'category',
       title: {
-        text: 'Nombre del Mecánico' 
+        text: 'Nombre del Mecánico'
       },
       categories: chartData.map(item => { return item.name }),
       labels: {

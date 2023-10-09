@@ -114,6 +114,10 @@ export class UsuariosComponent implements OnInit {
     window.open('/dashboard/usuarios/' + row.id, '_blank');
   }
 
+  viewHistorial(row: any) {
+    window.open('/dashboard/request/' + row.id, '_blank');
+  }
+
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
   }

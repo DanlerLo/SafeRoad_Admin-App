@@ -70,4 +70,12 @@ export class DataService {
   getMembresiaById(uid : any) {
     return this.afs.doc("membresias/"+uid).valueChanges();
   }
+
+  getAllRequests() {
+    return this.afs.collection("requests/").snapshotChanges();
+  }
+
+  getMecanicoWorkPerformed(mechanic : any) {
+    return this.afs.doc("workPerformed/"+mechanic).valueChanges();
+  }
 }

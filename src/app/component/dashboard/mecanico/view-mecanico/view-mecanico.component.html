@@ -1,5 +1,5 @@
 <h2 class="header-title">Información Mecánico</h2>
-<hr class="divider">
+<hr class="divider" />
 <div class="card-container">
   <div class="mat-card">
     <div class="mat-card-title">
@@ -8,35 +8,96 @@
     <div class="mat-card-subtitle">
       {{ mecanicoObj?.qualification }}
     </div>
-    <hr class="divider">
-    <div class="row pt-4">
+    <hr class="divider" />
+    <div class="row pt-6">
       <div class="col-md-3">
         <div class="mat-card-content">
-          <span class="highlight">Email:</span> {{ mecanicoObj.mail }} <br><br>
-          <span class="highlight">Celular:</span> {{ mecanicoObj.phoneNumber }} <br><br>
-          <span class="highlight">Dirección:</span> {{ mecanicoObj.address }} <br><br>
+          <span class="highlight">Email:</span> {{ mecanicoObj.mail }}
+          <br /><br />
+          <span class="highlight">Celular:</span> {{ mecanicoObj.phoneNumber }}
+          <br /><br />
+          <span class="highlight">Dirección:</span> {{ mecanicoObj.address }}
+          <br /><br />
         </div>
       </div>
       <div class="col-md-3">
         <div class="mat-card-content">
-          <span class="highlight">Local:</span> {{ mecanicoObj.local }} <br><br>
-          <span class="highlight">Cédula:</span> {{ mecanicoObj.identification }}
+          <span class="highlight">Local:</span> {{ mecanicoObj.local }}
+          <br /><br />
+          <span class="highlight">Cédula:</span>
+          {{ mecanicoObj.identification }}
         </div>
       </div>
       <div class="col-md-3">
         <div class="mat-card-content">
-          <span class="highlight">Comprobante</span> <br>
+          <span class="highlight">Comprobante</span> <br />
           <a href="{{ mecanicoObj.voucher }}" alt="Comprobante">
-            <img src="{{ mecanicoObj.voucher }}" alt="Comprobante" class="voucher">
+            <img
+              src="{{ mecanicoObj.voucher }}"
+              alt="Comprobante"
+              class="voucher"
+            />
           </a>
         </div>
       </div>
       <div class="col-md-3">
         <div class="mat-card-content">
-          <span class="highlight">Foto de Perfil</span> <br>
+          <span class="highlight">Foto de Perfil</span> <br />
           <a href="{{ mecanicoObj.profilePic }}" alt="FotoPerfil">
-            <img src="{{ mecanicoObj.profilePic }}" alt="FotoPerfil" class="voucher">
-          </a><br>
+            <img
+              src="{{ mecanicoObj.profilePic }}"
+              alt="FotoPerfil"
+              class="voucher"
+            /> </a
+          ><br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="header-title">Historial de servicios</h2>
+<hr class="divider" />
+<div class="card-container-Service">
+  <div class="mat-card">
+    <div class="mat-card-title">
+      <span class="highlight">Servicios</span><br />
+    </div>
+    <div class="mat-card-subtitle">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="mat-card-content">
+            <br>
+            <table
+              mat-table
+              [dataSource]="dataSourceWork"
+              class="mat-elevation-z8"
+              style="width: 100%"
+            >
+              <ng-container matColumnDef="cost">
+                <th mat-header-cell *matHeaderCellDef>Costo</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.cost | currency: 'COP $' }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="mechanic">
+                <th mat-header-cell *matHeaderCellDef>ID del Mecánico</th>
+                <td mat-cell *matCellDef="let element">{{ element.mechanic }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nombre del Trabajo</th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsWork"></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumnsWork"
+              ></tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
