@@ -1,27 +1,5 @@
 <div class="container">
-  <div class="row">
-    <div class="col-sm-6 col-md-4 mt-3">
-      <mat-card class="add-doc text-center" (click)="addUsuarios()">
-        <mat-card-content>
-          Añadir usuarios <br>
-          <mat-icon>group_add</mat-icon>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-
-  <!-- Filtros de búsqueda -->
-  <div class="filters">
-    <mat-form-field appearance="standard">
-      <mat-label>Género</mat-label>
-      <mat-select [(ngModel)]="selectedGender" (change)="applyFilter($event)">
-        <mat-option value="">Todos</mat-option>
-        <mat-option value="Masculino">Masculino</mat-option>
-        <mat-option value="Femenino">Femenino</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
+  <br>
   <!-- Mecanicos table -->
   <mat-form-field appearance="standard" class="search-field">
     <mat-label>Búsqueda</mat-label>

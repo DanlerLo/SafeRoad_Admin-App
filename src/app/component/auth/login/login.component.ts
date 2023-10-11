@@ -14,8 +14,8 @@ export class LoginComponent implements OnInit {
   password: any = '';
 
   constructor(
-    private authApi : AuthService,
-    private fb : FormBuilder)
+    private fb : FormBuilder,
+    private authService: AuthService)
   {
       this.form = this.fb.group({
       email : [this.email, [Validators.required, Validators.email]],
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authApi.login(this.form.value.email, this.form.value.password);
+    this.authService.login(this.form.value.email, this.form.value.password);
   }
 
 }

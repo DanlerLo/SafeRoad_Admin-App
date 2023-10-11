@@ -25,6 +25,11 @@ import { ViewGeocercasComponent } from './component/dashboard/geocerca/view-geoc
 import { NgChartsModule } from 'ng2-charts';
 import { ModuloComponent } from './component/dashboard/modulo/modulo.component';
 import * as Highcharts from 'highcharts';
+import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,15 +58,19 @@ import * as Highcharts from 'highcharts';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireAuthModule,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
     NgChartsModule,
+    RouterModule.forRoot([]),
+    MatDialogModule,
   ],
   providers: [
     { provide: Highcharts, useValue: Highcharts },
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AddMecanicoComponent]
+  entryComponents: [AddMecanicoComponent],
 })
-export class AppModule { }
+export class AppModule {}
