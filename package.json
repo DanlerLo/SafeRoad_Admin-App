@@ -7,8 +7,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "npm run build",
-    "build": "npm run build",
+    "prebuild": "npm start",
+    "build": "npm ",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "cy:open": "cypress open",
