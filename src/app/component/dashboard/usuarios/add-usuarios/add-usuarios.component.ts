@@ -13,8 +13,8 @@ export class AddUsuariosComponent implements OnInit {
   title !: string;
   name !: string;
   phoneNumber !: string;
-  email !: string;
-  cedula !: string;
+  mail !: string;
+  identification !: string;
   birthdate !: Date;
   qualification !: string;
   uid !: string;
@@ -31,8 +31,8 @@ export class AddUsuariosComponent implements OnInit {
       this.uid = data.uid;
       this.name = data.name;
       this.phoneNumber = data.phoneNumber;
-      this.email = data.email;
-      this.cedula = data.cedula;
+      this.mail = data.mail;
+      this.identification = data.identification;
       this.buttonName = data.buttonName;
    }
 
@@ -41,8 +41,8 @@ export class AddUsuariosComponent implements OnInit {
       uid: [this.uid, []],
       name : [this.name, [Validators.required]],
       phoneNumber : [this.phoneNumber, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
-      email : [this.email, [Validators.required, Validators.email]],
-      cedula : [this.cedula, [Validators.required]],
+      email : [this.mail, [Validators.required, Validators.email]],
+      cedula : [this.identification, [Validators.required]],
     })
   }
 

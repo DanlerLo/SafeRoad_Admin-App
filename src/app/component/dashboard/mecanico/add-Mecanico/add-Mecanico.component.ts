@@ -13,12 +13,12 @@ export class AddMecanicoComponent implements OnInit {
   title !: string;
   name !: string;
   phoneNumber !: string;
-  email !: string;
+  mail !: string;
   local !: string;
-  cedula !: string;
+  identification !: string;
   uid !: string;
   buttonName !: string;
-  bio !: string;
+
 
 
 
@@ -31,10 +31,9 @@ export class AddMecanicoComponent implements OnInit {
       this.uid = data.uid;
       this.name = data.name;
       this.phoneNumber = data.phoneNumber;
-      this.email = data.email;
+      this.mail = data.mail;
       this.local = data.local;
-      this.cedula = data.cedula;
-      this.bio = data.bio;
+      this.identification = data.identification;
       this.buttonName = data.buttonName;
    }
 
@@ -43,10 +42,9 @@ export class AddMecanicoComponent implements OnInit {
       uid: [this.uid, []],
       name : [this.name, [Validators.required]],
       phoneNumber : [this.phoneNumber, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
-      email : [this.email, [Validators.required, Validators.email]],
+      email : [this.mail, [Validators.required, Validators.email]],
       local : [this.local, [Validators.required]],
-      cedula : [this.cedula, [Validators.required]],
-      bio : [this.bio, [Validators.required]],
+      cedula : [this.identification, [Validators.required]],
     })
   }
 

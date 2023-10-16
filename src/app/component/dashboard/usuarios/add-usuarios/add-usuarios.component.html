@@ -37,15 +37,6 @@
             *ngIf="form.get('cedula')?.invalid || form.get('cedula')?.dirty || form.get('cedula')?.touched">Ingrese su
             cedula </mat-error>
         </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Biografia</mat-label>
-          <input matInput placeholder="Biografia" formControlName="bio" required>
-          <mat-error *ngIf="form.get('bio')?.invalid || form.get('bio')?.dirty || form.get('bio')?.touched">Ingrese
-            nombre
-            de su local </mat-error>
-        </mat-form-field>
-
       </div>
     </mat-grid-tile>
 
