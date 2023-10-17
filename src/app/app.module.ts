@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { MaterialModule } from './material/material/material.module';
 import { MecanicoComponent } from './component/dashboard/mecanico/mecanico.component';
 import { SidebarComponent } from './component/dashboard/sidebar/sidebar.component';
+import { AddMecanicoComponent } from './component/dashboard/mecanico/add-Mecanico/add-Mecanico.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteMecanicoComponent } from './component/dashboard/mecanico/delete-Mecanico/delete-mecanico.component';
 import { ViewMecanicoComponent } from './component/dashboard/mecanico/view-mecanico/view-mecanico.component';
@@ -36,6 +37,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     SidebarComponent,
     UsuariosComponent,
     SidebarComponent,
+    AddMecanicoComponent,
     DeleteMecanicoComponent,
     ViewMecanicoComponent,
     AddUsuariosComponent,
@@ -69,5 +71,6 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
   ],
   bootstrap: [AppComponent],
+  entryComponents: [AddMecanicoComponent],
 })
 export class AppModule {}
